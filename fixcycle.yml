@@ -86,6 +86,26 @@ components:
         productionYear: '2019'
         color: 'Blue'
 
+    UpdateMotorcycle:
+      type: object
+      properties:
+        lisencePlate:
+          type: string
+        ownerName:
+          type: string
+        brand:
+          type: string
+        type:
+          type: integer
+        cylinderCapacity:
+          type: number
+        productionYear:
+          type: string
+        color:
+          type: string
+      example:
+        ownerName: 'Madara Uchiha'
+
 paths:
   /register:
     post:
@@ -200,7 +220,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ''
+              $ref: '#/components/schemas/UpdateMotorcycle'
       responses:
         '200':
           description: 'OK'
@@ -220,3 +240,36 @@ paths:
               example:
                 status: 'fail'
                 message: 'Object or value is invalid'
+
+  /services/add:
+    post:
+      summary: 'Add a new service'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMotorcycle'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully added a new service'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                'Invalid object':
+                  value:
+                    status: 'fail'
+                    message: 'Object or value is invalid'
