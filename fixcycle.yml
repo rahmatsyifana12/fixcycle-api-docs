@@ -52,17 +52,21 @@ components:
             phoneNumber: '08123456789'
             address: 'Konoha, Leaf Village'
 
-    AddMotorcycle:
+    Motorcycle:
       type: object
       properties:
+        id:
+          type: integer
+        userId:
+          type: integer
         lisencePlate:
           type: string
-        ownerName:
+        name:
           type: string
         brand:
           type: string
         type:
-          type: integer
+          type: string
         cylinderCapacity:
           type: number
         productionYear:
@@ -70,33 +74,27 @@ components:
         color:
           type: string
       required:
+        - 'id'
+        - 'userId'
         - 'lisencePlate'
-        - 'ownerName'
+        - 'name'
         - 'brand'
         - 'type'
         - 'cylinderCapacity'
         - 'productionYear'
         - 'color'
-      example:
-        lisencePlate: 'A 123 BC'
-        ownerName: 'Rikudou Sennin'
-        brand: 'Yamaha'
-        type: 1
-        cylinderCapacity: 155.99
-        productionYear: '2019'
-        color: 'Blue'
 
     UpdateMotorcycle:
       type: object
       properties:
         lisencePlate:
           type: string
-        ownerName:
+        name:
           type: string
         brand:
           type: string
         type:
-          type: integer
+          type: string
         cylinderCapacity:
           type: number
         productionYear:
@@ -104,7 +102,96 @@ components:
         color:
           type: string
       example:
-        ownerName: 'Madara Uchiha'
+        name: 'NMax'
+        cylinderCapacity: 155
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        motorcycleId:
+          type: integer
+        type:
+          type: integer
+        request:
+          type: string
+        serviceTime:
+          type: string
+        status:
+          type: integer
+        createdAt:
+          type: string
+      required:
+        - 'id'
+        - 'userId'
+        - 'motorcycleId'
+        - 'type'
+        - 'request'
+        - 'serviceTime'
+        - 'status'
+        - 'createdAt'
+
+  examples:
+    GetMotorcycles:
+      value:
+        status: 'success'
+        message: 'Successfully found all motorcycles'
+        motorcycles:
+          - id: 1
+            userId: 1
+            lisencePlate: 'A 123 BC'
+            name: 'Lexi'
+            brand: 'Yamaha'
+            type: 'Matic'
+            cylinderCapacity: 125
+            productionYear: '2019'
+            color: 'Black'
+
+          - id: 2
+            userId: 1
+            lisencePlate: 'X 45 YZ'
+            name: 'R15'
+            brand: 'Yamaha'
+            type: 'Sport Manual'
+            cylinderCapacity: 155
+            productionYear: '2018'
+            color: 'Blue'
+
+
+    GetServices:
+      value:
+        status: 'success'
+        message: 'Successfully found all services'
+        services:
+          - id: 1
+            userId: 1
+            motorcycleId: 1
+            type: 1
+            request: 'Please repair the handlebar'
+            serviceTime: '2022-07-22 12:12:00'
+            status: 1
+            createdAt: '2022-06-09 13:00:00'
+
+          - id: 2
+            userId: 2
+            motorcycleId: 1
+            type: 2
+            request: 'Please repair the handlebar'
+            serviceTime: '2022-07-22 12:12:00'
+            status: 1
+            createdAt: '2022-06-09 13:00:00'
+
+
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT authentication'
 
 paths:
   /register:
@@ -187,7 +274,38 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddMotorcycle'
+              type: object
+              properties:
+                lisencePlate:
+                  type: string
+                name:
+                  type: string
+                brand:
+                  type: string
+                type:
+                  type: integer
+                cylinderCapacity:
+                  type: number
+                productionYear:
+                  type: string
+                color:
+                  type: string
+              required:
+                - 'lisencePlate'
+                - 'ownerName'
+                - 'brand'
+                - 'type'
+                - 'cylinderCapacity'
+                - 'productionYear'
+                - 'color'
+              example:
+                lisencePlate: 'A 123 BC'
+                name: 'Lexi'
+                brand: 'Yamaha'
+                type: 1
+                cylinderCapacity: 155.99
+                productionYear: '2019'
+                color: 'Blue'
       responses:
         '200':
           description: 'OK'
@@ -209,6 +327,110 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+
+  /services/add:
+    post:
+      summary: 'Add a new service'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                motorcycleId:
+                  type: integer
+                type:
+                  type: integer
+                request:
+                  type: string
+                serviceTime:
+                  type: string
+                status:
+                  type: integer
+              required:
+                - 'motorcycleId'
+                - 'type'
+                - 'request'
+                - 'serviceTime'
+                - 'status'
+              example:
+                motorcycleId: 1
+                type: 1
+                request: 'Please repair the handlebar'
+                serviceTime: '2022-07-22 12:12:00'
+                status: 1
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully added a new service'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                'Invalid object':
+                  value:
+                    status: 'fail'
+                    message: 'Object or value is invalid'
+
+  /motorcycles:
+    get:
+      summary: 'Get all motorcycles for user'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CommonResponse'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Motorcycle'
+                        required:
+                          - motorcycles
+              examples:
+                'Get all motorcycles':
+                  $ref: '#/components/examples/GetMotorcycles'
+
+  /services:
+    get:
+      summary: 'Get all services'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CommonResponse'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Service'
+                        required:
+                          - services
+              examples:
+                'Get all services':
+                    $ref: '#/components/examples/GetServices'
 
   /motorycles/update:
     put:
@@ -240,36 +462,3 @@ paths:
               example:
                 status: 'fail'
                 message: 'Object or value is invalid'
-
-  /services/add:
-    post:
-      summary: 'Add a new service'
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddMotorcycle'
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResponse'
-              example:
-                status: 'success'
-                message: 'Successfully added a new service'
-        '400':
-          description: 'Bad request'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResponse'
-              examples:
-                'Invalid object':
-                  value:
-                    status: 'fail'
-                    message: 'Object or value is invalid'
