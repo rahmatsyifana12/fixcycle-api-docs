@@ -1,0 +1,222 @@
+openapi: '3.0.2'
+info:
+  title: fixcycle
+  version: '1.0'
+servers:
+  - url: 'localhost:5000'
+
+components:
+  schemas:
+    CommonResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      required:
+        - 'status'
+        - 'message'
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - 'email'
+        - 'password'
+      example:
+        email: 'rikudou@gmail.com'
+        password: 'Rikudou123'
+
+    UserRegister:
+      allOf:
+        - $ref: '#/components/schemas/UserLogin'
+        - type: object
+          properties:
+            name:
+              type: string
+            phoneNumber:
+              type: string
+            address:
+              type: string
+          required:
+            - 'name'
+            - 'phoneNumber'
+            - 'address'
+          example:
+            name: 'Rikudou Sennin'
+            phoneNumber: '08123456789'
+            address: 'Konoha, Leaf Village'
+
+    AddMotorcycle:
+      type: object
+      properties:
+        lisencePlate:
+          type: string
+        ownerName:
+          type: string
+        brand:
+          type: string
+        type:
+          type: integer
+        cylinderCapacity:
+          type: number
+        productionYear:
+          type: string
+        color:
+          type: string
+      required:
+        - 'lisencePlate'
+        - 'ownerName'
+        - 'brand'
+        - 'type'
+        - 'cylinderCapacity'
+        - 'productionYear'
+        - 'color'
+      example:
+        lisencePlate: 'A 123 BC'
+        ownerName: 'Rikudou Sennin'
+        brand: 'Yamaha'
+        type: 1
+        cylinderCapacity: 155.99
+        productionYear: '2019'
+        color: 'Blue'
+
+paths:
+  /register:
+    post:
+      summary: 'Register a new account'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully registered a new account'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                'Account already exist':
+                  value:
+                    status: 'fail'
+                    message: 'This account is already exist'
+                'Invalid object':
+                  value:
+                    status: 'fail'
+                    message: 'Object or value is invalid'
+
+  /login:
+    post:
+      summary: 'Login user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully login'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                "Account doesn't exist":
+                  value:
+                    status: 'fail'
+                    message: "Account doesn''t exist"
+                'Invalid object':
+                  value:
+                    status: 'fail'
+                    message: 'Object or value is invalid'
+
+  /motorcycles/add:
+    post:
+      summary: 'Add a new motorcycle'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMotorcycle'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully added a new motorcycle'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                'Invalid object':
+                  value:
+                    status: 'fail'
+                    message: 'Object or value is invalid'
+
+  /motorycles/update:
+    put:
+      summary: 'Update a motorcycle data'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ''
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully updated a motorcycle data'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'fail'
+                message: 'Object or value is invalid'
