@@ -225,72 +225,75 @@ components:
       value:
         status: 'success'
         message: 'Successfully found all motorcycles'
-        motorcycles:
-          - id: 1
-            userId: 1
-            lisencePlate: 'A 123 BC'
-            name: 'Lexi'
-            brand: 'Yamaha'
-            type: 'Matic'
-            cylinderCapacity: 125
-            productionYear: '2019'
-            color: 'Black'
+        data:
+          motorcycles:
+            - id: 1
+              userId: 1
+              lisencePlate: 'A 123 BC'
+              name: 'Lexi'
+              brand: 'Yamaha'
+              type: 'Matic'
+              cylinderCapacity: 125
+              productionYear: '2019'
+              color: 'Black'
 
-          - id: 2
-            userId: 1
-            lisencePlate: 'X 45 YZ'
-            name: 'R15'
-            brand: 'Yamaha'
-            type: 'Sport Manual'
-            cylinderCapacity: 155
-            productionYear: '2018'
-            color: 'Blue'
+            - id: 2
+              userId: 1
+              lisencePlate: 'X 45 YZ'
+              name: 'R15'
+              brand: 'Yamaha'
+              type: 'Sport Manual'
+              cylinderCapacity: 155
+              productionYear: '2018'
+              color: 'Blue'
 
     GetServices:
       value:
         status: 'success'
         message: 'Successfully found all services'
-        services:
-          - id: 1
-            userId: 1
-            motorcycleId: 1
-            type: 1
-            request: 'Please repair the handlebar'
-            serviceTime: '2022-07-22 12:12:00'
-            status: 1
-            createdAt: '2022-06-09 13:00:00'
+        data:
+          services:
+            - id: 1
+              userId: 1
+              motorcycleId: 1
+              type: 1
+              request: 'Please repair the handlebar'
+              serviceTime: '2022-07-22 12:12:00'
+              status: 1
+              createdAt: '2022-06-09 13:00:00'
 
-          - id: 2
-            userId: 2
-            motorcycleId: 1
-            type: 2
-            request: 'Please repair the handlebar'
-            serviceTime: '2022-07-22 12:12:00'
-            status: 1
-            createdAt: '2022-06-09 13:00:00'
+            - id: 2
+              userId: 2
+              motorcycleId: 1
+              type: 2
+              request: 'Please repair the handlebar'
+              serviceTime: '2022-07-22 12:12:00'
+              status: 1
+              createdAt: '2022-06-09 13:00:00'
 
     GetServicesForUser:
       value:
         status: 'success'
         message: 'Successfully found all services for user'
-        services:
-          - id: 1
-            userId: 1
-            motorcycleId: 1
-            type: 1
-            request: 'Please repair the stang'
-            serviceTime: '2022-07-22 12:12:00'
-            status: 1
-            createdAt: '2022-06-09 13:00:00'
+        data:
+          services:
+            - id: 1
+              userId: 1
+              motorcycleId: 1
+              type: 1
+              request: 'Please repair the stang'
+              serviceTime: '2022-07-22 12:12:00'
+              status: 1
+              createdAt: '2022-06-09 13:00:00'
 
-          - id: 2
-            userId: 1
-            motorcycleId: 2
-            type: 2
-            request: 'Please change the tire'
-            serviceTime: '2022-07-22 12:12:00'
-            status: 1
-            createdAt: '2022-06-09 13:00:00'
+            - id: 2
+              userId: 1
+              motorcycleId: 2
+              type: 2
+              request: 'Please change the tire'
+              serviceTime: '2022-07-22 12:12:00'
+              status: 1
+              createdAt: '2022-06-09 13:00:00'
 
   securitySchemes:
     bearerAuth:
@@ -617,16 +620,17 @@ paths:
               example:
                 status: 'success'
                 message: 'Product found'
-                motorcycle:
-                    id: 1
-                    userId: 1
-                    lisencePlate: 'A 123 BC'
-                    name: 'Lexi'
-                    brand: 'Yamaha'
-                    type: 'Matic'
-                    cylinderCapacity: 125
-                    productionYear: '2019'
-                    color: 'Black'
+                data:
+                  motorcycle:
+                      id: 1
+                      userId: 1
+                      lisencePlate: 'A 123 BC'
+                      name: 'Lexi'
+                      brand: 'Yamaha'
+                      type: 'Matic'
+                      cylinderCapacity: 125
+                      productionYear: '2019'
+                      color: 'Black'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
