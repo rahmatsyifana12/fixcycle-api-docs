@@ -710,3 +710,19 @@ paths:
               example:
                 status: 'fail'
                 message: 'Object or value is invalid'
+
+  /logout:
+    delete:
+      summary: 'Logout from current account by using the JWT token'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Succesfully loged out'
