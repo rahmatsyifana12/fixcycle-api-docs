@@ -78,8 +78,6 @@ components:
     UpdateUser:
       type: object
       properties:
-        email:
-          type: string
         name:
           type: string
         phone_number:
@@ -87,7 +85,6 @@ components:
         address:
           type: string
       example:
-        email: 'Singqiumasterembat@gmail.com'
         name: 'Xingqiu'
         phone_number: '089278162354'
         address: 'Liyue'
@@ -174,25 +171,47 @@ components:
         - 'status'
         - 'createdAt'
 
+    ServiceUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        motorcycleId:
+          type: integer
+        type:
+          type: integer
+        request:
+          type: string
+        serviceTime:
+          type: string
+        status:
+          type: integer
+        createdAt:
+          type: string
+      required:
+      - 'id'
+      - 'userId'
+      - 'motorcycleId'
+      - 'type'
+      - 'request'
+      - 'serviceTime'
+      - 'status'
+      - 'createdAt'
+
   examples:
     GetUsers:
       value:
         status: 'success'
-        message: 'Successfully found all services'
-        services:
+        message: 'Successfully get user profile'
+        user:
           - id: 1
             email: 'YelanxKazuha@gmail.com'
             name: 'Yelan'
             phone_number: '087831764545'
             address: 'Liyue'
             is_admin: false
-
-          - id: 1
-            email: 'HutaoxZhongli@gmail.com'
-            name: 'Hutao'
-            phone_number: '087832764646'
-            address: 'Liyue'
-            is_admin: true
 
     GetMotorcycles:
       value:
@@ -242,6 +261,28 @@ components:
             status: 1
             createdAt: '2022-06-09 13:00:00'
 
+    GetServicesForUser:
+      value:
+        status: 'success'
+        message: 'Successfully found all services for user'
+        services:
+          - id: 1
+            userId: 1
+            motorcycleId: 1
+            type: 1
+            request: 'Please repair the stang'
+            serviceTime: '2022-07-22 12:12:00'
+            status: 1
+            createdAt: '2022-06-09 13:00:00'
+
+          - id: 2
+            userId: 1
+            motorcycleId: 2
+            type: 2
+            request: 'Please change the tire'
+            serviceTime: '2022-07-22 12:12:00'
+            status: 1
+            createdAt: '2022-06-09 13:00:00'
 
 
   securitySchemes:
@@ -457,7 +498,7 @@ paths:
                   - $ref: '#/components/schemas/CommonResponse'
                   - properties:
                       data:
-                        type: array
+                        type: object
                         items:
                           $ref: '#/components/schemas/User'
                         required:
@@ -513,6 +554,30 @@ paths:
               examples:
                 'Get all services':
                     $ref: '#/components/examples/GetServices'
+
+  /services/user:
+    get:
+      summary: 'Get service for users'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CommonResponse'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ServiceUser'
+                        required:
+                          - services/user
+              examples:
+                'Get services For User':
+                    $ref: '#/components/examples/GetServicesForUser'
 
   /users/update:
     put:
