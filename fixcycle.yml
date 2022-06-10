@@ -3,6 +3,9 @@ info:
   title: fixcycle
   version: '1.0'
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/rahmatsyifana76/Fixcycle/1.0
   - url: 'localhost:5000'
 
 components:
@@ -732,7 +735,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /motorycles/update/{motorcycleId}:
+  /motorcycles/update/{motorcycleId}:
     put:
       summary: 'Update a motorcycle data'
       security:
@@ -788,7 +791,7 @@ paths:
                 $ref: '#/components/schemas/CommonResponse'
               example:
                 status: 'success'
-                message: 'Succesfully loged out'
+                message: 'Succesfully logged out'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '500':
