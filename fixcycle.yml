@@ -541,6 +541,59 @@ paths:
                 'Get all motorcycles':
                   $ref: '#/components/examples/GetMotorcycles'
 
+  /motorcycles/get/{motorcycleId}:
+    get:
+      summary: 'Get motorcycle by id'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: motorcycleId
+          description: 'The motorcycle ID to be viewed'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  motorcycle:
+                    $ref: '#/components/schemas/Motorcycle'
+                required:
+                  - 'status'
+                  - 'message'
+                  - 'motorcycle'
+              example:
+                status: 'success'
+                message: 'Product found'
+                motorcycle:
+                    id: 1
+                    userId: 1
+                    lisencePlate: 'A 123 BC'
+                    name: 'Lexi'
+                    brand: 'Yamaha'
+                    type: 'Matic'
+                    cylinderCapacity: 125
+                    productionYear: '2019'
+                    color: 'Black'
+        '404':
+          description: 'Product not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'fail'
+                message: 'Product not found'
+
   /services:
     get:
       summary: 'Get all services'
