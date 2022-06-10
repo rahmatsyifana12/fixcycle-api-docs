@@ -75,6 +75,23 @@ components:
         - 'address'
         - 'is_admin'
 
+    UpdateUser:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        phone_number:
+          type: string
+        address:
+          type: string
+      example:
+        email: 'Singqiumasterembat@gmail.com'
+        name: 'Xingqiu'
+        phone_number: '089278162354'
+        address: 'Liyue'
+
     Motorcycle:
       type: object
       properties:
@@ -449,7 +466,6 @@ paths:
                 'Get user profile':
                     $ref: '#/components/examples/GetUsers'
 
-
   /motorcycles:
     get:
       summary: 'Get all motorcycles for user'
@@ -497,6 +513,37 @@ paths:
               examples:
                 'Get all services':
                     $ref: '#/components/examples/GetServices'
+
+  /users/update:
+    put:
+      summary: 'Update a user data'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'success'
+                message: 'Successfully updated a user data'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'fail'
+                message: 'Object or value is invalid'
 
   /motorycles/update:
     put:
