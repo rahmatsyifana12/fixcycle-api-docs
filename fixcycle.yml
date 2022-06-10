@@ -52,6 +52,29 @@ components:
             phoneNumber: '08123456789'
             address: 'Konoha, Leaf Village'
 
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        phone_number:
+          type: string
+        address:
+          type: string
+        is_admin:
+          type: boolean
+      required:
+        - 'id'
+        - 'email'
+        - 'name'
+        - 'phone_number'
+        - 'address'
+        - 'is_admin'
+
     Motorcycle:
       type: object
       properties:
@@ -135,6 +158,25 @@ components:
         - 'createdAt'
 
   examples:
+    GetUsers:
+      value:
+        status: 'success'
+        message: 'Successfully found all services'
+        services:
+          - id: 1
+            email: 'YelanxKazuha@gmail.com'
+            name: 'Yelan'
+            phone_number: '087831764545'
+            address: 'Liyue'
+            is_admin: false
+
+          - id: 1
+            email: 'HutaoxZhongli@gmail.com'
+            name: 'Hutao'
+            phone_number: '087832764646'
+            address: 'Liyue'
+            is_admin: true
+
     GetMotorcycles:
       value:
         status: 'success'
@@ -159,7 +201,6 @@ components:
             cylinderCapacity: 155
             productionYear: '2018'
             color: 'Blue'
-
 
     GetServices:
       value:
@@ -383,6 +424,31 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+
+  /users:
+    get:
+      summary: 'Get user profile'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CommonResponse'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+                        required:
+                          - users
+              examples:
+                'Get user profile':
+                    $ref: '#/components/examples/GetUsers'
+
 
   /motorcycles:
     get:
