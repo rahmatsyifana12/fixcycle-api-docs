@@ -25,8 +25,6 @@ components:
           type: string
         password:
           type: string
-        accessToken:
-          type: string
       required:
         - 'email'
         - 'password'
@@ -34,7 +32,6 @@ components:
       example:
         email: 'rikudou@gmail.com'
         password: 'Rikudou123'
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 
     UserRegister:
       type: object
@@ -215,8 +212,9 @@ components:
       value:
         status: 'success'
         message: 'Successfully get user profile'
-        user:
-          - id: 1
+        data:
+          user:
+            id: 1
             email: 'YelanxKazuha@gmail.com'
             name: 'Yelan'
             phone_number: '087831764545'
@@ -378,6 +376,8 @@ paths:
               example:
                 status: 'success'
                 message: 'Successfully login'
+                data:
+                  accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
         '400':
           description: 'Bad request'
           content:
