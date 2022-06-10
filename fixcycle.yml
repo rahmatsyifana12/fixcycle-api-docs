@@ -673,11 +673,18 @@ paths:
                 status: 'fail'
                 message: 'Object or value is invalid'
 
-  /motorycles/update:
+  /motorycles/update/{motorcycleId}:
     put:
       summary: 'Update a motorcycle data'
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: motorcycleId
+          description: 'The motorcycle ID to be viewed'
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
