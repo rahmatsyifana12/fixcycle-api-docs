@@ -294,13 +294,32 @@ components:
             status: 1
             createdAt: '2022-06-09 13:00:00'
 
-
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
       description: 'JWT authentication'
+
+  responses:
+    ServerError:
+      description: 'An error that was caused by the internal server'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonResponse'
+          example:
+            status: 'fail'
+            message: 'Unexpected server error'
+    UnauthorizedError:
+      description: "User doesn't have any account session"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonResponse'
+          example:
+            status: 'fail'
+            message: 'Unauthorized error'
 
 paths:
   /register:
@@ -337,6 +356,8 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /login:
     post:
@@ -372,6 +393,12 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+                'Incorrect password':
+                  value:
+                    status: 'fail'
+                    message: 'Incorrect password'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /motorcycles/add:
     post:
@@ -436,6 +463,10 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /services/add:
     post:
@@ -492,6 +523,10 @@ paths:
                   value:
                     status: 'fail'
                     message: 'Object or value is invalid'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /users:
     get:
@@ -516,6 +551,10 @@ paths:
               examples:
                 'Get user profile':
                     $ref: '#/components/examples/GetUsers'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /motorcycles:
     get:
@@ -540,6 +579,10 @@ paths:
               examples:
                 'Get all motorcycles':
                   $ref: '#/components/examples/GetMotorcycles'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /motorcycles/get/{motorcycleId}:
     get:
@@ -584,6 +627,8 @@ paths:
                     cylinderCapacity: 125
                     productionYear: '2019'
                     color: 'Black'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
         '404':
           description: 'Product not found'
           content:
@@ -593,6 +638,8 @@ paths:
               example:
                 status: 'fail'
                 message: 'Product not found'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /services:
     get:
@@ -617,6 +664,10 @@ paths:
               examples:
                 'Get all services':
                     $ref: '#/components/examples/GetServices'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /services/user:
     get:
@@ -672,6 +723,10 @@ paths:
               example:
                 status: 'fail'
                 message: 'Object or value is invalid'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /motorycles/update/{motorcycleId}:
     put:
@@ -710,6 +765,10 @@ paths:
               example:
                 status: 'fail'
                 message: 'Object or value is invalid'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /logout:
     delete:
@@ -726,3 +785,7 @@ paths:
               example:
                 status: 'success'
                 message: 'Succesfully loged out'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
