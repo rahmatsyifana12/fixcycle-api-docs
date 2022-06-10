@@ -25,32 +25,42 @@ components:
           type: string
         password:
           type: string
+        accessToken:
+          type: string
       required:
         - 'email'
         - 'password'
+        - 'accessToken'
       example:
         email: 'rikudou@gmail.com'
         password: 'Rikudou123'
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 
     UserRegister:
-      allOf:
-        - $ref: '#/components/schemas/UserLogin'
-        - type: object
-          properties:
-            name:
-              type: string
-            phoneNumber:
-              type: string
-            address:
-              type: string
-          required:
-            - 'name'
-            - 'phoneNumber'
-            - 'address'
-          example:
-            name: 'Rikudou Sennin'
-            phoneNumber: '08123456789'
-            address: 'Konoha, Leaf Village'
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+      required:
+        - 'email'
+        - 'password'
+        - 'name'
+        - 'phoneNumber'
+        - 'address'
+      example:
+        email: 'rikudou@gmail.com'
+        password: 'Rikudou123'
+        name: 'Rikudou Sennin'
+        phoneNumber: '08123456789'
+        address: 'Konoha, Leaf Village'
 
     User:
       type: object
