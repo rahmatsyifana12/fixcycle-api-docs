@@ -181,6 +181,20 @@ components:
         - 'status'
         - 'createdAt'
 
+    UpdateService:
+      type: object
+      properties:
+        motorcycleId:
+          type: integer
+        type:
+          type: integer
+        request:
+          type: string
+        serviceTime:
+          type: string
+        status:
+          type: integer
+
     ServiceUser:
       type: object
       properties:
@@ -676,6 +690,63 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /services/get/{serviceId}:
+    get:
+      summary: 'Get service by id'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: serviceId
+          description: 'The service ID to be viewed'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  service:
+                    $ref: '#/components/schemas/Service'
+                required:
+                  - 'status'
+                  - 'message'
+                  - 'service'
+              example:
+                status: 'success'
+                message: 'Product found'
+                data:
+                  service:
+                      id: 1
+                      userId: 1
+                      motorcycleId: 1
+                      type: 1
+                      request: 'Please repair the handlebar'
+                      serviceTime: '2022-07-22 12:12:00'
+                      status: 1
+                      createdAt: '2022-06-09 13:00:00'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: 'Product not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                status: 'fail'
+                message: 'Product not found'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /services/user:
     get:
       summary: 'Get service for users'
@@ -734,6 +805,48 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  /services/update/{serviceId}:
+    put:
+        summary: 'Update a service data'
+        security:
+          - bearerAuth: []
+        parameters:
+          - in: path
+            name: serviceId
+            description: 'The service ID to be viewed'
+            required: true
+            schema:
+              type: integer
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateService'
+        responses:
+          '200':
+            description: 'OK'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CommonResponse'
+                example:
+                  status: 'success'
+                  message: 'Successfully updated a service data'
+          '400':
+            description: 'Bad request'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CommonResponse'
+                example:
+                  status: 'fail'
+                  message: 'Object or value is invalid'
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '500':
+            $ref: '#/components/responses/ServerError'
 
   /motorcycles/update/{motorcycleId}:
     put:
